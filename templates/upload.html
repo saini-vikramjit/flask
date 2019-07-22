@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block container %}
+    <h1>Upload page</h1>
+    <form method="POST" enctype="multipart/form-data" action="">
+        <div>
+            <label for="file">Choose file to upload</label>
+            <input type="file"  name="profilePicture" accept="image/png, image/jpeg, image/jpg" >
+        </div>
+        <div>
+            <input type="submit" value="Upload" />
+        </div>
+    </form>
+{% endblock container %}
