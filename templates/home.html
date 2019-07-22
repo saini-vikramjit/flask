@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block container %}
+    <h1>
+        Students list
+    </h1>
+    <ul>
+        {% for student in students %}
+            <li>
+                <h4>
+                    Name: {{ student.name }}
+                </h4>
+                <p>
+                    Roll No: {{ student.rollno }}
+                </p>
+                <p>
+                    On Probation: 
+                        {% if student.isOnProbation == True %} 
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                </p>
+                <p>
+                    Major: {{ student.major }}
+                </p>
+                
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock container %}
