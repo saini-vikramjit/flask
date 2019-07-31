@@ -1,8 +1,11 @@
 import os
 import secrets
+import hashlib
+
 from flask import Flask, render_template, url_for, flash, redirect, request
 from forms import RegisterationForm, LoginForm
 from werkzeug.utils import secure_filename
+from pathlib import Path
 
 app = Flask(__name__)
 
@@ -55,6 +58,7 @@ def login():
             return redirect(url_for('home'))
         else:
             flash(f'Login unsuccessfull. Please check your credentials.', 'danger')
+            
     return render_template('login.html', title="Login", form=form)
 
 
@@ -83,11 +87,27 @@ def upload():
         picture = randomHex + fExt
         #filename = secure_filename(file.filename)
         file.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], picture))
-        flash(f'File uploaded successfully.','success')
+        flash('File uploaded successfully.','success')
         return redirect(url_for('home'))
             
     else:
         return render_template('upload.html')
+
+@app.route("/read-file", methods=['GET'])
+def readFile():
+    with open('uac21.xml', 'r') as content_file:
+        #print(content_file.read())
+        checksum = hashlib.md5( (content_file.read()).encode('utf-8') ).hexdigest()
+        return render_template('readFile.html', fileContent=checksum)
+
+        """ 
+        file = request.FILES['filename']
+        file.name           # Gives name
+        file.content_type   # Gives Content type text/html etc
+        file.size           # Gives file's size in byte
+        file.read()         # Reads file
+        """
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
